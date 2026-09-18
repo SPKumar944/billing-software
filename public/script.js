@@ -50,7 +50,11 @@ async function fetchMenuData() {
       return;
     }
 
-    itemsData = data.items.map(page => {
+    itemsData = data.items.filter(p => {
+      const nameProp = p.properties.Item_Name || p.properties.Name || p.properties.title;
+      const name = nameProp?.title?.[0]?.plain_text || '';
+      return !name.includes('SYSTEM_');
+    }).map(page => {
       const p = page.properties;
       const nameProp = p.Item_Name || p.Name || p.title;
       const name = nameProp?.title?.[0]?.plain_text || 'Unnamed Item';
