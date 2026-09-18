@@ -1207,6 +1207,11 @@ window.openProfile = function(pageId) {
   const emergencyName = p['Emergency Contact']?.rich_text[0]?.plain_text || '';
   const emergencyPhone = p['Emergency Phone']?.phone_number || '';
   const emergencyRel = p['Emergency Relationship']?.rich_text[0]?.plain_text || '';
+  const idType = p['ID Type']?.select?.name || '';
+  const idNumber = p['ID Number']?.rich_text[0]?.plain_text || '';
+  const bankName = p['Bank Name']?.rich_text[0]?.plain_text || '';
+  const bankAcc = p['Account Number']?.rich_text[0]?.plain_text || '';
+  const bankIfsc = p['IFSC Code']?.rich_text[0]?.plain_text || '';
   
   // Hide views
   document.querySelectorAll('.view').forEach(v => v.style.display = 'none');
@@ -1233,6 +1238,11 @@ window.openProfile = function(pageId) {
   
   document.getElementById('edit_current_address').value = currentAddress;
   document.getElementById('edit_perm_address').value = permAddress;
+  document.getElementById('edit_id_type').value = idType;
+  document.getElementById('edit_id_number').value = idNumber;
+  document.getElementById('edit_bank_name').value = bankName;
+  document.getElementById('edit_bank_acc').value = bankAcc;
+  document.getElementById('edit_bank_ifsc').value = bankIfsc;
 
   // Fill ID Card
   document.getElementById('profile-card-name').innerText = name;
@@ -1290,7 +1300,12 @@ if (editForm) {
           emergencyPhone: document.getElementById('edit_emergency_phone').value,
           emergencyRel: document.getElementById('edit_emergency_rel').value,
           currentAddress: document.getElementById('edit_current_address').value,
-          permAddress: document.getElementById('edit_perm_address').value
+          permAddress: document.getElementById('edit_perm_address').value,
+          idType: document.getElementById('edit_id_type').value,
+          idNumber: document.getElementById('edit_id_number').value,
+          bankName: document.getElementById('edit_bank_name').value,
+          bankAcc: document.getElementById('edit_bank_acc').value,
+          bankIfsc: document.getElementById('edit_bank_ifsc').value
         })
       });
       if (!res.ok) throw new Error("Save failed");
