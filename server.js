@@ -284,7 +284,7 @@ const server = http.createServer(async (req, res) => {
         const notionRes = await fetch('https://api.notion.com/v1/pages', {
           method: 'POST',
           headers: {
-            'Authorization': 'Bearer ' + TOKEN,
+            'Authorization': 'Bearer ' + NOTION_API_KEY,
             'Notion-Version': '2022-06-28',
             'Content-Type': 'application/json'
           },
@@ -309,11 +309,10 @@ const server = http.createServer(async (req, res) => {
   // GET /api/employees: Fetch employees from Notion
   if (pathname === '/api/employees' && req.method === 'GET') {
     try {
-      const fetch = require('node-fetch'); // wait, use native fetch! Actually no require needed in Node 18+
       const notionRes = await fetch(`https://api.notion.com/v1/databases/${EMPLOYEE_DB_ID}/query`, {
         method: 'POST',
         headers: {
-          'Authorization': 'Bearer ' + TOKEN,
+          'Authorization': 'Bearer ' + NOTION_API_KEY,
           'Notion-Version': '2022-06-28',
           'Content-Type': 'application/json'
         },
