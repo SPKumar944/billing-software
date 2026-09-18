@@ -305,6 +305,30 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
+  
+  // GET /api/employees: Fetch employees from Notion
+  if (pathname === '/api/employees' && req.method === 'GET') {
+    try {
+      const fetch = require('node-fetch'); // wait, use native fetch! Actually no require needed in Node 18+
+      const notionRes = await fetch(`https://api.notion.com/v1/databases/${EMPLOYEE_DB_ID}/query`, {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer ' + TOKEN,
+          'Notion-Version': '2022-06-28',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({})
+      });
+      const data = await notionRes.json();
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(data.results || []));
+    } catch (err) {
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: err.message }));
+    }
+    return;
+  }
+
   // GET /api/materials: Fetch raw materials pricing
   if (pathname === '/api/materials' && req.method === 'GET') {
     const materialsPath = path.join(__dirname, 'data', 'materials.json');
