@@ -1098,3 +1098,17 @@ if (onboardingForm) {
     }
   });
 }
+
+
+window.previewSampleID = function() {
+  document.getElementById('id-card-name').innerText = "Rahul Sharma";
+  document.getElementById('id-card-role').innerText = "Store Manager";
+  document.getElementById('id-card-blood').innerText = "O+";
+  document.getElementById('id-card-empid').innerText = "EMP-654321";
+  document.getElementById('id-card-photo').src = "https://i.pravatar.cc/150?img=11";
+  
+  const qrData = encodeURIComponent("ID:EMP-654321|Name:Rahul Sharma|Blood:O+|Role:Store Manager");
+  document.getElementById('id-card-qr').src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${qrData}`;
+
+  document.getElementById('id-card-modal').style.display = 'flex';
+};
