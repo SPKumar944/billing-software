@@ -15,6 +15,7 @@ if (fs.existsSync(envPath)) {
 
 const NOTION_API_KEY = process.env.NOTION_API_KEY;
 const NOTION_DB_ID = process.env.NOTION_DB_ID;
+const EMPLOYEE_DB_ID = "3dffc44d-958c-81a3-842c-d0263d77615e";
 
 const headers = {
   'Authorization': `Bearer ${NOTION_API_KEY}`,
@@ -241,6 +242,19 @@ const server = http.createServer(async (req, res) => {
         if (data.bankAcc) addProp("Account Number", "rich_text", () => ({ rich_text: [{ text: { content: data.bankAcc } }] }));
         if (data.bankIfsc) addProp("IFSC Code", "rich_text", () => ({ rich_text: [{ text: { content: data.bankIfsc } }] }));
 
+        if (data.dob) addProp("Date of Birth", "date", () => ({ date: { start: data.dob } }));
+        if (data.blood) addProp("Blood Group", "select", () => ({ select: { name: data.blood } }));
+        if (data.father) addProp("Father/Spouse Name", "rich_text", () => ({ rich_text: [{ text: { content: data.father } }] }));
+        if (data.marital) addProp("Marital Status", "select", () => ({ select: { name: data.marital } }));
+        if (data.currentAddress) addProp("Current Address", "rich_text", () => ({ rich_text: [{ text: { content: data.currentAddress } }] }));
+        if (data.permAddress) addProp("Permanent Address", "rich_text", () => ({ rich_text: [{ text: { content: data.permAddress } }] }));
+        if (data.uan) addProp("UAN Number", "rich_text", () => ({ rich_text: [{ text: { content: data.uan } }] }));
+        if (data.email) addProp("Email Address", "email", () => ({ email: data.email }));
+        
+        // Generate an Employee ID automatically
+        const empIdStr = "EMP-" + Math.floor(100000 + Math.random() * 900000);
+        addProp("Employee ID", "rich_text", () => ({ rich_text: [{ text: { content: empIdStr } }] }));
+
         // Handle File Uploads (save locally, push url to Notion)
         const processFile = (fileObj, propName) => {
           if (!fileObj || !fileObj.data) return;
@@ -281,7 +295,7 @@ const server = http.createServer(async (req, res) => {
         if (notionData.object === 'error') throw new Error(notionData.message);
 
         res.writeHead(201, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ success: true }));
+        res.end(JSON.stringify({ success: true, empId: empIdStr }));
       } catch (err) {
         console.error(err);
         res.writeHead(500, { 'Content-Type': 'application/json' });
@@ -321,7 +335,7 @@ const server = http.createServer(async (req, res) => {
         fs.writeFileSync(materialsPath, body, 'utf-8');
         
         res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ success: true }));
+        res.end(JSON.stringify({ success: true, empId: empIdStr }));
       } catch (err) {
         res.writeHead(400, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: err.message }));
