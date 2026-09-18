@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Restaurant System</title>
+  <link rel="stylesheet" href="style.css?v=28">
+</head>
+<body>
+  
+  <div class="app-layout">
+    <!-- Left Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2>Restaurant</h2>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="nav-item active" data-target="pos-view">
+          Billing / POS
+        </div>
+        <div class="nav-item" data-target="products-view">
+          Products
+        </div>
+        <div class="nav-item" data-target="purchase-view">
+          Purchase Orders
+        </div>
+        <div class="nav-item" data-target="analytics-view">
+          Analytics
+        </div>
+      </nav>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="content-area">
+      
+      <!-- VIEW 1: POS SYSTEM -->
+      <div id="pos-view" class="view active">
+        <div class="pos-container">
+          <div class="menu-section">
+            <header style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom: 16px;">
+              <div>
+                <h1>Point of Sale</h1>
+                <div class="category-filter-ribbon" id="pos-categories" style="display:flex; flex-wrap:wrap; gap:8px;">
+                  <!-- Dynamically injected -->
+                </div>
+              </div>
+              <div style="background:#fff3e0; border:1px solid #ffcc80; padding:8px 12px; border-radius:8px; display:flex; align-items:center; gap:8px;">
+                <input type="checkbox" id="clearance-mode-toggle" style="width:16px; height:16px; accent-color:#ff9800; cursor:pointer;">
+                <label for="clearance-mode-toggle" style="font-weight:600; color:#e65100; cursor:pointer; font-size:14px;">Clearance Mode (-20%)</label>
+              </div>
+            </header>
+            
+            <main class="items-grid" id="items-container">
+              <span>Loading items...</span>
+            </main>
+          </div>
+
+          <aside class="cart-section">
+            <h2>Current Order</h2>
+            <div class="cart-items" id="cart-container">
+            </div>
+            <div class="cart-summary">
+              <div class="total-row">
+                <span>Total:</span>
+                <span id="cart-total">$0.00</span>
+              </div>
+              <button class="checkout-btn">Checkout</button>
+            </div>
+          </aside>
+        </div>
+      </div>
+
+      <!-- VIEW 2: PRODUCTS GALLERY -->
+      <div id="products-view" class="view" style="display: none;">
+        <div class="products-container" style="flex:1;">
+          <header class="products-header">
+            <h2 style="font-size:24px; font-weight:600; margin:0;">Menu Gallery</h2>
+            <button class="btn btn-primary" id="open-add-panel-btn">Add New Item</button>
+          </header>
+          
+          <!-- Category Filter -->
+          <div class="category-filter-ribbon" id="gallery-categories" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px;">
+            <!-- Dynamically injected -->
+          </div>
+          
+          <main class="gallery-grid" id="gallery-grid">
+            <!-- Gallery items will be injected here -->
+          </main>
+        </div>
+      </div>
+
+      <!-- VIEW 3: PURCHASE ORDERS -->
+      <div id="purchase-view" class="view" style="display: none;">
+        <div class="products-container" style="flex:1;">
+          <header class="products-header">
+            <h2 style="font-size:24px; font-weight:600; margin:0;">Weekly Purchase Order</h2>
+            <button class="btn btn-primary" id="generate-po-btn">Calculate Raw Materials</button>
+          </header>
+          
+          <div style="background:var(--surface-color); padding:24px; border-radius:12px; box-shadow:var(--shadow-soft);">
+            <p style="color:var(--text-secondary); margin-top:0; margin-bottom:20px;">
+              This calculates the required raw materials by aggregating the weekly order strategies (Auto-Forecast or Manual Override) set in each product's BOM.
+            </p>
+            <div id="po-results">
+              <span style="color:#888;">Click "Calculate Raw Materials" to generate the final list.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- VIEW 4: ANALYTICS -->
+      <div id="analytics-view" class="view" style="display: none; padding: 32px; overflow-y:auto;">
+        <header style="margin-bottom: 24px;">
+          <h2 style="font-size:24px; font-weight:600; margin:0;">Profitability Dashboard</h2>
+          <p style="color:#555; margin-top:4px;">Manage raw material costs and analyze real-time profit margins across all items.</p>
+        </header>
+
+        <div style="display:grid; grid-template-columns: 300px 1fr; gap: 24px; align-items: start;">
+          <!-- Left Col: Raw Materials -->
+          <div style="background:#fff; border-radius:12px; box-shadow:0 1px 3px rgba(0,0,0,0.05); padding:20px;">
+            <h3 style="margin-top:0; font-size:16px;">Raw Material Costs ($/Unit)</h3>
+            <div id="materials-container" style="display:flex; flex-direction:column; gap:12px; margin-top:16px;">
+              <span style="color:#888;">Loading materials...</span>
+            </div>
+            <button id="save-materials-btn" class="btn btn-primary" style="width:100%; margin-top:20px;">Save Costs</button>
+          </div>
+          
+          <!-- Right Col: Profit Margins -->
+          <div style="background:#fff; border-radius:12px; box-shadow:0 1px 3px rgba(0,0,0,0.05); padding:20px;">
+            <h3 style="margin-top:0; font-size:16px; margin-bottom:16px;">Item Profit Margins</h3>
+            <div id="margins-container" style="overflow-x:auto;">
+              <span style="color:#888;">Load items to view margins.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+  <!-- Full Page Add Item Modal (Apple iOS Style) -->
+  <div id="add-panel" class="full-page-modal">
+    <div class="modal-header">
+      <button type="button" id="cancel-panel-btn" class="header-text-btn">Cancel</button>
+      <h2>New Menu Item</h2>
+      <button type="submit" form="add-item-form" id="save-panel-btn" class="header-text-btn save-text-btn">Save</button>
+    </div>
+    
+    <div class="modal-body">
+      <form id="add-item-form">
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+          
+          <!-- Column 1: Basic Info -->
+          <div class="form-section">
+            <h3 style="margin-top:0; margin-bottom:16px; font-size:15px; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.05em;">Basic Details</h3>
+            
+            <div class="form-group">
+              <label>Item Name *</label>
+              <input type="text" id="Item_Name" required placeholder="e.g. Paneer Butter Masala">
+            </div>
+            
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+              <div class="form-group">
+                <label>Base Price ($) *</label>
+                <input type="number" step="0.01" id="Base_Price" required>
+              </div>
+              <div class="form-group">
+                <label>Item ID (SKU)</label>
+                <input type="text" id="Item_ID" placeholder="e.g. ITM-1042">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Images (Min 1, Max 5) *</label>
+              <input type="file" id="Image_Files" accept="image/*" multiple required>
+              <div id="image_preview" style="display:flex; gap:8px; margin-top:8px; overflow-x:auto;"></div>
+            </div>
+
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+              <div class="form-group">
+                <label>Category ID</label>
+                <select id="Category_ID">
+                  <option value="">None</option>
+                  <option value="Hollow Crisp Shells">Hollow Crisp Shells</option>
+                  <option value="Flat Crisps & Edible Tart Bases">Flat Crisps & Edible Tart Bases</option>
+                  <option value="Puffed Grain & Light Mixes">Puffed Grain & Light Mixes</option>
+                  <option value="Griddle-Fried Patties & Warm Cutlet Chaats">Griddle-Fried Patties & Warm Cutlet Chaats</option>
+                  <option value="Stuffed Pastries & Giant Kachoris">Stuffed Pastries & Giant Kachoris</option>
+                  <option value="Yogurt-Soaked Lentil Dumplings">Yogurt-Soaked Lentil Dumplings</option>
+                  <option value="Crispy Battered Leaf & Fried Veg Chaats">Crispy Battered Leaf & Fried Veg Chaats</option>
+                  <option value="Boiled Legumes Sprouts & Protein Bases">Boiled Legumes Sprouts & Protein Bases</option>
+                  <option value="Roasted Roots & Fresh Fruit Chaats">Roasted Roots & Fresh Fruit Chaats</option>
+                  <option value="Regional Specialties">Regional Specialties</option>
+                  <option value="Fusion & Modern Chaats">Fusion & Modern Chaats</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Menu Type</label>
+                <select id="Menu_Type">
+                  <option value="">None</option>
+                  <option value="Veg">Veg</option>
+                  <option value="Non-Veg">Non-Veg</option>
+                  <option value="Vegan">Vegan</option>
+                  <option value="Egg">Egg</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Column 2: Inventory & Setup -->
+          <div class="form-section">
+            <h3 style="margin-top:0; margin-bottom:16px; font-size:15px; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.05em;">Inventory & Setup</h3>
+            
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+              <div class="form-group">
+                <label>Item Nature</label>
+                <select id="Item_Nature">
+                  <option value="">None</option>
+                  <option value="Made-To-Order">Made-To-Order</option>
+                  <option value="Pre-Made">Pre-Made</option>
+                  <option value="Sub-Assembly">Sub-Assembly</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Tax Tier ID</label>
+                <input type="text" id="Tax_Tier_ID" placeholder="e.g. TAX-01">
+              </div>
+            </div>
+
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+              <div class="form-group">
+                <label>Cost of Goods (COGS)</label>
+                <input type="number" step="0.01" id="COGS" placeholder="e.g. 85.50">
+              </div>
+              <div style="grid-column: 1 / -1;">
+                <label style="margin-bottom:8px; display:block;">Daily Quotas (Auto-Forecast)</label>
+                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(60px, 1fr)); gap:8px;">
+                  <div><label style="font-size:11px; color:#888;">Mon</label><input type="number" id="Quota_Mon" class="apple-input" placeholder="0"></div>
+                  <div><label style="font-size:11px; color:#888;">Tue</label><input type="number" id="Quota_Tue" class="apple-input" placeholder="0"></div>
+                  <div><label style="font-size:11px; color:#888;">Wed</label><input type="number" id="Quota_Wed" class="apple-input" placeholder="0"></div>
+                  <div><label style="font-size:11px; color:#888;">Thu</label><input type="number" id="Quota_Thu" class="apple-input" placeholder="0"></div>
+                  <div><label style="font-size:11px; color:#888;">Fri</label><input type="number" id="Quota_Fri" class="apple-input" placeholder="0"></div>
+                  <div><label style="font-size:11px; color:#888;">Sat</label><input type="number" id="Quota_Sat" class="apple-input" placeholder="0"></div>
+                  <div><label style="font-size:11px; color:#888;">Sun</label><input type="number" id="Quota_Sun" class="apple-input" placeholder="0"></div>
+                </div>
+              </div>
+              <div style="background:#f9f9fb; padding:12px; border-radius:8px; border:1px solid #e5e5ea; grid-column: 1 / -1;">
+                <label style="display:flex; align-items:center; gap:8px; font-weight:600; font-size:14px; cursor:pointer;">
+                  <input type="checkbox" id="Manual_Weekly_Forecast_Toggle">
+                  Manual Weekly Forecast
+                </label>
+                <div id="Manual_Forecast_Container" style="display:none; margin-top:12px;">
+                  <label for="Weekly_Forecast">Manual Weekly Qty</label>
+                  <input type="number" id="Weekly_Forecast" class="apple-input" placeholder="e.g. 350">
+                  <p style="font-size:12px; color:#888; margin-top:4px; margin-bottom:0;">If unchecked, Purchase Orders will auto-calculate based on the sum of the 7 daily quotas above.</p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Unit Stock Count</label>
+                <input type="number" id="Unit_Stock_Count" placeholder="For Pre-Made">
+              </div>
+            </div>
+
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+              <div class="form-group">
+                <label>Low Stock Threshold</label>
+                <input type="number" id="Low_Stock_Threshold">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Prep Time (Mins)</label>
+              <input type="number" id="Prep_Time_Mins">
+            </div>
+          </div>
+        </div>
+
+        <!-- Recipe BOM Builder -->
+        <div class="form-group builder-group">
+          <label>Recipe BOM (Bill of Materials)</label>
+          <div id="bom-list"></div>
+          <button type="button" class="add-row-btn" id="add-bom-btn">+ Add Ingredient</button>
+        </div>
+
+        <!-- Add-Ons Builder -->
+        <div class="form-group builder-group">
+          <label>Add-Ons Allowed</label>
+          <div id="addons-list"></div>
+          <button type="button" class="add-row-btn" id="add-addon-btn">+ Add Add-On</button>
+        </div>
+
+        <div class="form-group checkbox-group" style="margin-bottom: 40px;">
+          <input type="checkbox" id="Is_Active" checked>
+          <label for="Is_Active">Is Active (Available to order)</label>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="script.js?v=31"></script>
+</body>
+</html>
