@@ -204,14 +204,14 @@ function renderItems() {
     
     const isPreMade = item.raw.Item_Nature?.select?.name === 'Pre-Made';
     let currentPrice = item.price;
-    let priceHtml = `<span class="price" style="font-weight:600;">$${currentPrice.toFixed(2)}</span>`;
+    let priceHtml = `<span class="price" style="font-weight:600;">₹${currentPrice.toFixed(2)}</span>`;
     
     if (clearanceMode && isPreMade) {
       currentPrice = item.price * 0.8;
       priceHtml = `
         <div style="display:flex; flex-direction:column; align-items:flex-end;">
-          <del style="color:#888; font-size:12px;">$${item.price.toFixed(2)}</del>
-          <span class="price" style="font-weight:700; color:#e65100;">$${currentPrice.toFixed(2)}</span>
+          <del style="color:#888; font-size:12px;">₹${item.price.toFixed(2)}</del>
+          <span class="price" style="font-weight:700; color:#e65100;">₹${currentPrice.toFixed(2)}</span>
         </div>
       `;
     }
@@ -311,7 +311,7 @@ function renderItems() {
         ${imgHtml}
         <div style="flex:1; margin-left: 16px;">
           <h4 style="margin:0 0 4px 0; font-size:16px; font-weight:600; color:#1d1d1f;">${item.name}</h4>
-          <div style="font-size:14px; color:#555; font-weight:500;">$${item.price.toFixed(2)}</div>
+          <div style="font-size:14px; color:#555; font-weight:500;">₹${item.price.toFixed(2)}</div>
         </div>
         <div style="margin-right: 16px;">
           ${statusHtml}
@@ -376,12 +376,12 @@ function renderCart() {
       <div class="cart-item">
         <span class="cart-item-name">${item.name}</span>
         <span class="cart-item-qty" style="${getQtyColorStyles(item.qty)}">x${item.qty}</span>
-        <span class="cart-item-price">$${itemTotal.toFixed(2)}</span>
+        <span class="cart-item-price">₹${itemTotal.toFixed(2)}</span>
       </div>
     `;
   });
 
-  document.getElementById('cart-total').innerText = `$${total.toFixed(2)}`;
+  document.getElementById('cart-total').innerText = `₹${total.toFixed(2)}`;
 }
 
 // Kitchen Display System Routing
@@ -900,7 +900,7 @@ function renderAnalytics() {
             <span style="font-size:11px; color:#888;">Cost per KG / L / Pc</span>
           </div>
           <div style="display:flex; align-items:center;">
-            <span style="color:#888; margin-right:4px;">$</span>
+            <span style="color:#888; margin-right:4px;">₹</span>
             <input type="number" class="mat-cost-input apple-input" data-mat="${mat}" value="${currentPrice}" step="0.01" style="width:70px; padding:4px 8px; text-align:right;">
           </div>
         </div>
@@ -999,8 +999,8 @@ function renderAnalyticsMargins() {
     html += `
       <tr style="border-bottom:1px solid #f5f5f7;">
         <td style="padding:12px 8px; font-weight:500;">${item.name}</td>
-        <td style="padding:12px 8px; text-align:right;">$${price.toFixed(2)}</td>
-        <td style="padding:12px 8px; text-align:right;">$${cogs.toFixed(2)}</td>
+        <td style="padding:12px 8px; text-align:right;">₹${price.toFixed(2)}</td>
+        <td style="padding:12px 8px; text-align:right;">₹${cogs.toFixed(2)}</td>
         <td style="padding:12px 8px; text-align:right; ${marginStyle}">${marginPct.toFixed(1)}%</td>
       </tr>
     `;
