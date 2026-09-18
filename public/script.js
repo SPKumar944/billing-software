@@ -1162,7 +1162,7 @@ window.loadEmployeeDirectory = async function() {
       grid.appendChild(card);
     });
   } catch(err) {
-    grid.innerHTML = '<p style="color:red;">Failed to load.</p>';
+    grid.innerHTML = '<p style="color:red;">' + err.message + '</p>'; console.error(err);
   }
 };
 
