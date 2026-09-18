@@ -164,6 +164,16 @@
                 <input type="date" id="emp_doj" required>
               </div>
               <div class="form-group">
+                <label>Department</label>
+                <select id="emp_department">
+                  <option value="Unassigned">Select Department</option>
+                  <option value="Kitchen">Kitchen</option>
+                  <option value="Front of House">Front of House</option>
+                  <option value="Management">Management</option>
+                  <option value="Cleaning & Maintenance">Cleaning & Maintenance</option>
+                </select>
+              </div>
+              <div class="form-group">
                 <label>Role / Position *</label>
                 <select id="emp_role" required>
                   <option value="">Select Role</option>
@@ -332,6 +342,15 @@
               <input type="hidden" id="edit_emp_id">
               <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px; margin-bottom:16px;">
                 <div class="form-group"><label>Full Name</label><input type="text" id="edit_name" required></div>
+                <div class="form-group"><label>Department</label>
+                  <select id="edit_department" style="width:100%; padding:8px 12px; border:1px solid #d1d1d6; border-radius:8px; font-size:14px;">
+                    <option value="Unassigned">Select Department</option>
+                    <option value="Kitchen">Kitchen</option>
+                    <option value="Front of House">Front of House</option>
+                    <option value="Management">Management</option>
+                    <option value="Cleaning & Maintenance">Cleaning & Maintenance</option>
+                  </select>
+                </div>
                 <div class="form-group"><label>Role</label><input type="text" id="edit_role" required></div>
                 <div class="form-group"><label>Mobile</label><input type="tel" id="edit_mobile"></div>
                 <div class="form-group"><label>Email</label><input type="email" id="edit_email"></div>
@@ -387,7 +406,8 @@
                   <img id="profile-card-photo" src="" style="width:100%; height:100%; object-fit:cover;">
                 </div>
                 <h3 id="profile-card-name" style="margin:0; font-size:18px; color:#333;">Name</h3>
-                <p id="profile-card-role" style="margin: 4px 0 16px 0; color:#0071e3; font-weight:600; font-size:13px; text-transform:uppercase;">Role</p>
+                <p id="profile-card-role" style="margin: 4px 0 2px 0; color:#0071e3; font-weight:600; font-size:13px; text-transform:uppercase;">Role</p>
+                <p id="profile-card-department" style="margin: 0 0 16px 0; color:#888; font-size:11px; text-transform:uppercase;">Department</p>
                 
                 <div style="display:flex; justify-content:space-between; text-align:left; font-size:11px; color:#555; margin-bottom:16px; background:#f9f9f9; padding:8px; border-radius:6px;">
                   <div>

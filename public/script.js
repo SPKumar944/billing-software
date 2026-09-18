@@ -1039,6 +1039,7 @@ if (onboardingForm) {
         name: document.getElementById('emp_name').value,
         doj: document.getElementById('emp_doj').value,
         role: document.getElementById('emp_role').value,
+        department: document.getElementById('emp_department').value,
         mobile: document.getElementById('emp_mobile').value,
         emergencyName: document.getElementById('emp_emergency_name').value,
         emergencyPhone: document.getElementById('emp_emergency_phone').value,
@@ -1137,10 +1138,27 @@ window.loadEmployeeDirectory = async function() {
     }
 
     window.employeeList = data;
-    data.forEach(emp => {
-      const p = emp.properties;
-      const name = p.Name?.title[0]?.plain_text || 'Unknown';
-      const role = p.Role?.select?.name || 'Staff';
+    // Group by department
+    const grouped = data.reduce((acc, emp) => {
+      const dept = emp.properties.Department?.select?.name || 'Unassigned';
+      if (!acc[dept]) acc[dept] = [];
+      acc[dept].push(emp);
+      return acc;
+    }, {});
+    
+    // Sort departments so Unassigned is last
+    const depts = Object.keys(grouped).sort((a, b) => a === 'Unassigned' ? 1 : b === 'Unassigned' ? -1 : a.localeCompare(b));
+    
+    depts.forEach(dept => {
+      const deptSection = document.createElement('div');
+      deptSection.style.cssText = 'grid-column: 1 / -1; margin-top: 16px; margin-bottom: 8px; border-bottom: 1px solid #ddd; padding-bottom: 8px;';
+      deptSection.innerHTML = `<h3 style="margin:0; font-size:16px; color:#555; text-transform:uppercase; letter-spacing:0.05em;">${dept}</h3>`;
+      grid.appendChild(deptSection);
+      
+      grouped[dept].forEach(emp => {
+        const p = emp.properties;
+        const name = p.Name?.title[0]?.plain_text || 'Unknown';
+        const role = p.Role?.select?.name || 'Staff';
       const blood = p['Blood Group']?.select?.name || '-';
       const empIdStr = p['Employee ID']?.rich_text[0]?.plain_text || 'EMP-XXXXXX';
       const phone = p.Mobile?.phone_number || '';
@@ -1161,6 +1179,7 @@ window.loadEmployeeDirectory = async function() {
 
       `;
       grid.appendChild(card);
+      });
     });
   } catch(err) {
     grid.innerHTML = '<p style="color:red;">' + err.message + '</p>'; console.error(err);
@@ -1170,6 +1189,7 @@ window.loadEmployeeDirectory = async function() {
 window.showIDCard = function(name, role, blood, empId, photoUrl) {
   document.getElementById('id-card-name').innerText = name;
   document.getElementById('id-card-role').innerText = role;
+  document.getElementById('id-card-department').innerText = document.getElementById('emp_department')?.value || 'Unassigned';
   document.getElementById('id-card-blood').innerText = blood;
   document.getElementById('id-card-empid').innerText = empId;
   document.getElementById('id-card-photo').src = photoUrl;
@@ -1191,6 +1211,7 @@ window.openProfile = function(pageId) {
   
   const name = p.Name?.title[0]?.plain_text || '';
   const role = p.Role?.select?.name || '';
+  const department = p.Department?.select?.name || 'Unassigned';
   const blood = p['Blood Group']?.select?.name || '';
   const empId = p['Employee ID']?.rich_text[0]?.plain_text || '';
   const mobile = p.Mobile?.phone_number || '';
@@ -1221,6 +1242,8 @@ window.openProfile = function(pageId) {
   document.getElementById('edit_emp_id').value = pageId;
   document.getElementById('edit_name').value = name;
   document.getElementById('edit_role').value = role;
+  document.getElementById('edit_department').value = department;
+  document.getElementById('profile-card-department').innerText = department;
   document.getElementById('edit_blood').value = blood;
   document.getElementById('edit_empid').value = empId;
   document.getElementById('edit_mobile').value = mobile;
@@ -1276,6 +1299,7 @@ if (editForm) {
     const blood = document.getElementById('edit_blood').value;
     document.getElementById('profile-card-name').innerText = name;
     document.getElementById('profile-card-role').innerText = role;
+    document.getElementById('profile-card-department').innerText = document.getElementById('edit_department').value;
     document.getElementById('profile-card-blood').innerText = blood;
     
     const qrData = encodeURIComponent(`ID:${document.getElementById('edit_empid').value}|Name:${name}|Blood:${blood}|Role:${role}`);
@@ -1288,6 +1312,7 @@ if (editForm) {
         body: JSON.stringify({
           name: name,
           role: role,
+          department: document.getElementById('edit_department').value,
           mobile: document.getElementById('edit_mobile').value,
           email: document.getElementById('edit_email').value,
           blood: blood,

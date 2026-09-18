@@ -231,6 +231,7 @@ const server = http.createServer(async (req, res) => {
         };
 
         if (data.role) addProp("Role", "select", () => ({ select: { name: data.role } }));
+        if (data.department) addProp("Department", "select", () => ({ select: { name: data.department } }));
         if (data.doj) addProp("Date of Joining", "date", () => ({ date: { start: data.doj } }));
         if (data.mobile) addProp("Mobile", "phone_number", () => ({ phone_number: data.mobile }));
         if (data.emergencyName) addProp("Emergency Contact", "rich_text", () => ({ rich_text: [{ text: { content: data.emergencyName } }] }));
@@ -319,6 +320,7 @@ const server = http.createServer(async (req, res) => {
         
         if (data.name) notionPayload.properties["Name"] = { title: [{ text: { content: data.name } }] };
         if (data.role) notionPayload.properties["Role"] = { select: { name: data.role } };
+        if (data.department) notionPayload.properties["Department"] = { select: { name: data.department } };
         if (data.blood) notionPayload.properties["Blood Group"] = { select: { name: data.blood } };
         if (data.mobile) notionPayload.properties["Mobile"] = { phone_number: data.mobile };
         if (data.email) notionPayload.properties["Email Address"] = { email: data.email };
