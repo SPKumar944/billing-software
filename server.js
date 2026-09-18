@@ -280,7 +280,7 @@ const server = http.createServer(async (req, res) => {
         processFile(data.idDoc, "ID Document");
         processFile(data.addressDoc, "Address Proof");
 
-        const fetch = require('node-fetch');
+        
         const notionRes = await fetch('https://api.notion.com/v1/pages', {
           method: 'POST',
           headers: {
