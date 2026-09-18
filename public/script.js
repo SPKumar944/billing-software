@@ -894,8 +894,11 @@ function renderAnalytics() {
     sortedMaterials.forEach(mat => {
       const currentPrice = materialsData[mat] || 0;
       materialsHtml += `
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-          <label style="font-size:14px; color:#1d1d1f; font-weight:500;">${mat}</label>
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom: 1px solid #f5f5f7; padding-bottom: 8px;">
+          <div style="display:flex; flex-direction:column;">
+            <label style="font-size:14px; color:#1d1d1f; font-weight:600;">${mat}</label>
+            <span style="font-size:11px; color:#888;">Cost per KG / L / Pc</span>
+          </div>
           <div style="display:flex; align-items:center;">
             <span style="color:#888; margin-right:4px;">$</span>
             <input type="number" class="mat-cost-input apple-input" data-mat="${mat}" value="${currentPrice}" step="0.01" style="width:70px; padding:4px 8px; text-align:right;">
@@ -971,8 +974,14 @@ function renderAnalyticsMargins() {
         if (!ing || !ingName) return;
         const qty = parseFloat(ing.qty) || 0;
         const matName = String(ingName).trim();
-        const matPrice = materialsData[matName] || 0; // price per unit
-        cogs += (qty * matPrice);
+        const matPrice = materialsData[matName] || 0; // price per KG/L/Pc
+        
+        let calculatedQty = qty;
+        if (ing.unit === 'g' || ing.unit === 'ml') {
+          calculatedQty = qty / 1000;
+        }
+        
+        cogs += (calculatedQty * matPrice);
       });
     }
     
