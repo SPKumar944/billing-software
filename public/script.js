@@ -878,7 +878,8 @@ function renderAnalytics() {
   itemsData.forEach(item => {
     if (item.bomRaw && item.bomRaw.ingredients && Array.isArray(item.bomRaw.ingredients)) {
       item.bomRaw.ingredients.forEach(ing => {
-        if (ing && ing.name) uniqueMaterials.add(String(ing.name).trim());
+        const ingName = ing.ingredient || ing.name;
+        if (ing && ingName) uniqueMaterials.add(String(ingName).trim());
       });
     }
   });
@@ -966,9 +967,10 @@ function renderAnalyticsMargins() {
     let cogs = 0;
     if (item.bomRaw && item.bomRaw.ingredients && Array.isArray(item.bomRaw.ingredients)) {
       item.bomRaw.ingredients.forEach(ing => {
-        if (!ing || !ing.name) return;
+        const ingName = ing.ingredient || ing.name;
+        if (!ing || !ingName) return;
         const qty = parseFloat(ing.qty) || 0;
-        const matName = String(ing.name).trim();
+        const matName = String(ingName).trim();
         const matPrice = materialsData[matName] || 0; // price per unit
         cogs += (qty * matPrice);
       });
