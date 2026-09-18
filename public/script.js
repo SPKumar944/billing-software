@@ -1157,7 +1157,7 @@ window.loadEmployeeDirectory = async function() {
           <p style="margin:4px 0 0 0; font-size:12px; color:#888;">${empIdStr} • ${phone}</p>
         </div>
         
-        <button class="btn btn-secondary" onclick="openProfile('\$\{emp.id\}')">View Profile</button>
+        <button class="btn btn-secondary" onclick="openProfile('${emp.id}')">View Profile</button>
 
       `;
       grid.appendChild(card);
