@@ -200,7 +200,7 @@ function renderItems() {
       statusHtml = `<span style="background:#fff3e0; color:#ff9800; padding:4px 8px; border-radius:6px; font-size:11px; font-weight:700;">Only ${item.stock} Left!</span>`;
     }
 
-    const imgHtml = item.imageUrl ? `<img src="${item.imageUrl}" style="width:100%; height:130px; object-fit:cover; border-radius:12px; margin-bottom:12px;">` : '';
+    const imgHtml = item.imageUrl ? `<img onerror="this.style.display='none'" src="${item.imageUrl}" style="width:100%; height:130px; object-fit:cover; border-radius:12px; margin-bottom:12px;">` : '';
     
     const isPreMade = item.raw.Item_Nature?.select?.name === 'Pre-Made';
     let currentPrice = item.price;
@@ -287,7 +287,7 @@ function renderItems() {
       }
       
       const imgHtml = item.imageUrl 
-        ? `<img src="${item.imageUrl}" style="width:56px; height:56px; object-fit:cover; border-radius:10px;">` 
+        ? `<img onerror="this.style.display='none'" src="${item.imageUrl}" style="width:56px; height:56px; object-fit:cover; border-radius:10px;">` 
         : `<div style="width:56px; height:56px; border-radius:10px; background:#f5f5f7; display:flex; align-items:center; justify-content:center; color:#888; font-size:11px;">No Img</div>`;
       
       const row = document.createElement('div');
@@ -518,12 +518,12 @@ function openEditPanel(item) {
     p.Images.files.forEach(f => {
       const url = f.external?.url || f.file?.url;
       if (url) {
-        document.getElementById('image_preview').innerHTML += `<img src="${url}" style="height:60px; width:60px; object-fit:cover; border-radius:4px;">`;
+        document.getElementById('image_preview').innerHTML += `<img onerror="this.style.display='none'" src="${url}" style="height:60px; width:60px; object-fit:cover; border-radius:4px;">`;
       }
     });
     fileInput.required = false;
   } else if (item.imageUrl) {
-    document.getElementById('image_preview').innerHTML = `<img src="${item.imageUrl}" style="height:60px; width:60px; object-fit:cover; border-radius:4px;">`;
+    document.getElementById('image_preview').innerHTML = `<img onerror="this.style.display='none'" src="${item.imageUrl}" style="height:60px; width:60px; object-fit:cover; border-radius:4px;">`;
     fileInput.required = false;
   } else {
     fileInput.required = true;
@@ -613,7 +613,7 @@ function setupPanelHandlers() {
     Array.from(fileInput.files).forEach(file => {
       const reader = new FileReader();
       reader.onload = (e) => {
-        preview.innerHTML += `<img src="${e.target.result}" style="height:60px; width:60px; object-fit:cover; border-radius:4px;">`;
+        preview.innerHTML += `<img onerror="this.style.display='none'" src="${e.target.result}" style="height:60px; width:60px; object-fit:cover; border-radius:4px;">`;
       };
       reader.readAsDataURL(file);
     });
