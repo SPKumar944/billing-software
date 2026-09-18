@@ -323,6 +323,24 @@ const server = http.createServer(async (req, res) => {
         if (data.mobile) notionPayload.properties["Mobile"] = { phone_number: data.mobile };
         if (data.email) notionPayload.properties["Email Address"] = { email: data.email };
         
+        if (data.dob) notionPayload.properties["Date of Birth"] = { date: { start: data.dob } };
+        if (data.doj) notionPayload.properties["Date of Joining"] = { date: { start: data.doj } };
+        if (data.father) notionPayload.properties["Father/Spouse Name"] = { rich_text: [{ text: { content: data.father } }] };
+        if (data.marital) notionPayload.properties["Marital Status"] = { select: { name: data.marital } };
+        if (data.currentAddress) notionPayload.properties["Current Address"] = { rich_text: [{ text: { content: data.currentAddress } }] };
+        if (data.permAddress) notionPayload.properties["Permanent Address"] = { rich_text: [{ text: { content: data.permAddress } }] };
+        if (data.uan) notionPayload.properties["UAN Number"] = { rich_text: [{ text: { content: data.uan } }] };
+        
+        if (data.emergencyName) notionPayload.properties["Emergency Contact"] = { rich_text: [{ text: { content: data.emergencyName } }] };
+        if (data.emergencyPhone) notionPayload.properties["Emergency Phone"] = { phone_number: data.emergencyPhone };
+        if (data.emergencyRel) notionPayload.properties["Emergency Relationship"] = { rich_text: [{ text: { content: data.emergencyRel } }] };
+        
+        if (data.idType) notionPayload.properties["ID Type"] = { select: { name: data.idType } };
+        if (data.idNumber) notionPayload.properties["ID Number"] = { rich_text: [{ text: { content: data.idNumber } }] };
+        if (data.bankName) notionPayload.properties["Bank Name"] = { rich_text: [{ text: { content: data.bankName } }] };
+        if (data.bankAcc) notionPayload.properties["Account Number"] = { rich_text: [{ text: { content: data.bankAcc } }] };
+        if (data.bankIfsc) notionPayload.properties["IFSC Code"] = { rich_text: [{ text: { content: data.bankIfsc } }] };
+        
         const notionRes = await fetch(`https://api.notion.com/v1/pages/${pageId}`, {
           method: 'PATCH',
           headers: {

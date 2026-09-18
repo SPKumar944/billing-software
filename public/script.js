@@ -1136,6 +1136,7 @@ window.loadEmployeeDirectory = async function() {
       return;
     }
 
+    window.employeeList = data;
     data.forEach(emp => {
       const p = emp.properties;
       const name = p.Name?.title[0]?.plain_text || 'Unknown';
@@ -1156,7 +1157,7 @@ window.loadEmployeeDirectory = async function() {
           <p style="margin:4px 0 0 0; font-size:12px; color:#888;">${empIdStr} • ${phone}</p>
         </div>
         
-        <button class="btn btn-secondary" onclick="openProfile('${emp.id}', '${name}', '${role}', '${blood}', '${empIdStr}', '${photoUrl}', '${phone}', '${p['Email Address']?.email || ''}')">View Profile</button>
+        <button class="btn btn-secondary" onclick="openProfile('\$\{emp.id\}')">View Profile</button>
 
       `;
       grid.appendChild(card);
@@ -1183,7 +1184,30 @@ window.showIDCard = function(name, role, blood, empId, photoUrl) {
 document.querySelector('[data-target="employee-directory-view"]').addEventListener('click', loadEmployeeDirectory);
 
 
-window.openProfile = function(pageId, name, role, blood, empId, photoUrl, mobile, email) {
+window.openProfile = function(pageId) {
+  const emp = window.employeeList.find(e => e.id === pageId);
+  if (!emp) return;
+  const p = emp.properties;
+  
+  const name = p.Name?.title[0]?.plain_text || '';
+  const role = p.Role?.select?.name || '';
+  const blood = p['Blood Group']?.select?.name || '';
+  const empId = p['Employee ID']?.rich_text[0]?.plain_text || '';
+  const mobile = p.Mobile?.phone_number || '';
+  const email = p['Email Address']?.email || '';
+  const photoUrl = p.Photo?.files[0]?.external?.url || 'https://i.pravatar.cc/150?u=' + empId;
+
+  const doj = p['Date of Joining']?.date?.start || '';
+  const dob = p['Date of Birth']?.date?.start || '';
+  const father = p['Father/Spouse Name']?.rich_text[0]?.plain_text || '';
+  const marital = p['Marital Status']?.select?.name || '';
+  const currentAddress = p['Current Address']?.rich_text[0]?.plain_text || '';
+  const permAddress = p['Permanent Address']?.rich_text[0]?.plain_text || '';
+  const uan = p['UAN Number']?.rich_text[0]?.plain_text || '';
+  const emergencyName = p['Emergency Contact']?.rich_text[0]?.plain_text || '';
+  const emergencyPhone = p['Emergency Phone']?.phone_number || '';
+  const emergencyRel = p['Emergency Relationship']?.rich_text[0]?.plain_text || '';
+  
   // Hide views
   document.querySelectorAll('.view').forEach(v => v.style.display = 'none');
   document.getElementById('employee-profile-view').style.display = 'block';
@@ -1196,6 +1220,19 @@ window.openProfile = function(pageId, name, role, blood, empId, photoUrl, mobile
   document.getElementById('edit_empid').value = empId;
   document.getElementById('edit_mobile').value = mobile;
   document.getElementById('edit_email').value = email;
+  
+  document.getElementById('edit_doj').value = doj;
+  document.getElementById('edit_dob').value = dob;
+  document.getElementById('edit_father').value = father;
+  document.getElementById('edit_marital').value = marital;
+  document.getElementById('edit_uan').value = uan;
+  
+  document.getElementById('edit_emergency_name').value = emergencyName;
+  document.getElementById('edit_emergency_phone').value = emergencyPhone;
+  document.getElementById('edit_emergency_rel').value = emergencyRel;
+  
+  document.getElementById('edit_current_address').value = currentAddress;
+  document.getElementById('edit_perm_address').value = permAddress;
 
   // Fill ID Card
   document.getElementById('profile-card-name').innerText = name;
@@ -1243,7 +1280,17 @@ if (editForm) {
           role: role,
           mobile: document.getElementById('edit_mobile').value,
           email: document.getElementById('edit_email').value,
-          blood: blood
+          blood: blood,
+          doj: document.getElementById('edit_doj').value,
+          dob: document.getElementById('edit_dob').value,
+          father: document.getElementById('edit_father').value,
+          marital: document.getElementById('edit_marital').value,
+          uan: document.getElementById('edit_uan').value,
+          emergencyName: document.getElementById('edit_emergency_name').value,
+          emergencyPhone: document.getElementById('edit_emergency_phone').value,
+          emergencyRel: document.getElementById('edit_emergency_rel').value,
+          currentAddress: document.getElementById('edit_current_address').value,
+          permAddress: document.getElementById('edit_perm_address').value
         })
       });
       if (!res.ok) throw new Error("Save failed");
