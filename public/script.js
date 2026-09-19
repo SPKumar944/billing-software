@@ -1595,7 +1595,7 @@ window.savePayRecord = function() {
     <td style="padding: 12px 0; color: #333;">${month}</td>
     <td style="padding: 12px 0; text-align: right; font-weight: 500;">₹${formattedAmount}</td>
     <td style="padding: 12px 0; text-align: right;">${statusBadge}</td>
-    <td style="padding: 12px 0; text-align: center;"><button class="btn btn-secondary" style="padding: 4px 8px; font-size: 10px;" onclick="downloadPayslip('${month}', ${amount})">Download</button></td>
+    <td style="padding: 12px 0; text-align: center;"><button class="btn btn-secondary" style="padding: 4px 8px; font-size: 10px;" onclick="downloadPayslip('${month}', ${amount}, 0, 0, ${amount})">Download</button></td>
   `;
   
   // Prepend to show newest first
@@ -1607,13 +1607,15 @@ window.savePayRecord = function() {
   document.getElementById('pay_amount').value = '';
 };
 
-window.downloadPayslip = function(month, amount) {
-  // Populate the hidden template
+window.downloadPayslip = function(month, baseSalary, absentDays, leaveDeduction, netPay) {
+  // Number to Words function (Basic for demo)
+  const numToWords = (num) => {
+    return "INR " + num.toString() + " Only"; // Placeholder, real impl can be added if needed
+  };
+
   document.getElementById('slip-emp-name').textContent = document.getElementById('edit_name').value || "Employee";
   document.getElementById('slip-emp-id').textContent = document.getElementById('edit_empid').value || "EMP-000";
   document.getElementById('slip-emp-dept').textContent = document.getElementById('edit_department').value || "Staff";
-  
-  // New Apple-style fields
   document.getElementById('slip-emp-role').textContent = document.getElementById('edit_role').value || "-";
   document.getElementById('slip-emp-doj').textContent = document.getElementById('edit_doj').value || "-";
   document.getElementById('slip-emp-uan').textContent = document.getElementById('edit_uan').value || "-";
@@ -1623,22 +1625,42 @@ window.downloadPayslip = function(month, amount) {
   
   document.getElementById('slip-month').textContent = month;
   
-  const formattedAmount = parseInt(amount).toLocaleString('en-IN');
-  document.getElementById('slip-amount').textContent = formattedAmount;
-  document.getElementById('slip-total').textContent = formattedAmount;
+  // Format numbers
+  const fmt = (n) => parseInt(n).toLocaleString('en-IN') + ".00";
+  
+  // Mathematical values
+  const profTax = 200;
+  const totalEarnings = parseInt(baseSalary);
+  const totalDeductions = profTax + parseInt(leaveDeduction);
+  let finalNet = totalEarnings - totalDeductions;
+  if(finalNet < 0) finalNet = 0;
+  
+  document.getElementById('slip-base').textContent = fmt(baseSalary);
+  
+  document.getElementById('slip-leave-desc').textContent = `Leave LOP (${absentDays} Days)`;
+  document.getElementById('slip-leave-amt').textContent = fmt(leaveDeduction);
+  
+  document.getElementById('slip-total-earn').textContent = fmt(totalEarnings);
+  document.getElementById('slip-total-ded').textContent = fmt(totalDeductions);
+  document.getElementById('slip-net').textContent = fmt(finalNet);
+  
+  document.getElementById('slip-words').textContent = numToWords(finalNet);
   
   const element = document.getElementById('payslip-template');
-  
-  // Temporarily show it for html2pdf rendering
   element.style.display = 'block';
   
   const opt = {
-    margin:       0.5,
+    margin:       0.3,
     filename:     `Payslip_${month.replace(/ /g, '_')}.pdf`,
     image:        { type: 'jpeg', quality: 0.98 },
     html2canvas:  { scale: 2 },
     jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
   };
+  
+  html2pdf().set(opt).from(element).save().then(() => {
+    element.style.display = 'none';
+  });
+};
   
   html2pdf().set(opt).from(element).save().then(() => {
     // Hide it again
@@ -1733,7 +1755,7 @@ window.generatePayHistory = async function(empId) {
           <td style="padding: 12px 0; color: #333;">${monthLabel}</td>
           <td style="padding: 12px 0; text-align: right; font-weight: 500;">₹${formattedAmount}</td>
           <td style="padding: 12px 0; text-align: right;"><span style="background: #e5ffe5; color: #008000; padding: 2px 6px; border-radius: 4px; font-size: 11px;">Paid</span></td>
-          <td style="padding: 12px 0; text-align: center;"><button class="btn btn-secondary" style="padding: 4px 8px; font-size: 10px;" onclick="downloadPayslip('${monthLabel}', ${Math.round(netPay)})">Download</button></td>
+          <td style="padding: 12px 0; text-align: center;"><button class="btn btn-secondary" style="padding: 4px 8px; font-size: 10px;" onclick="downloadPayslip('${monthLabel}', ${baseSalary}, ${absentCount}, ${Math.round(perDaySalary*absentCount)}, ${Math.round(netPay)})">Download</button></td>
         `;
         tbody.appendChild(tr);
       }
