@@ -358,7 +358,7 @@
       <!-- VIEW 7: EMPLOYEE PROFILE -->
       <div id="employee-profile-view" class="view" style="display:none; height:100%; overflow-y:auto; padding-bottom: 40px; padding: 24px;">
         <button class="btn btn-secondary" style="margin-bottom: 16px;" onclick="backToDirectory()">← Back to Directory</button>
-        <div style="display: flex; gap: 32px; align-items: flex-start; max-width: 900px; margin: 0 auto;">
+        <div style="display: flex; gap: 32px; align-items: flex-start; max-width: 1100px; margin: 0 auto;">
           
           <!-- Edit Form -->
           <div style="background: #fff; border-radius: 12px; padding: 32px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); flex: 1; min-width: 400px;">
@@ -456,10 +456,9 @@
             
             <button class="btn btn-secondary" style="width: 100%;" onclick="downloadIDCard()">Download ID Card</button>
           </div>
-        </div>
         
         <!-- Attendance History Calendar -->
-        <div style="max-width: 900px; margin: 32px auto 0 auto; background: #fff; border-radius: 12px; padding: 32px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+        <div style="background: #fff; border-radius: 12px; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
             <h2 style="margin: 0;">Attendance History</h2>
             <div style="display: flex; gap: 12px;">
@@ -491,18 +490,20 @@
           
           <div style="display: flex; justify-content: center; gap: 24px; margin-top: 24px; font-size: 12px; color: #555;">
             <div style="display: flex; align-items: center; gap: 6px;">
-              <div style="width: 12px; height: 12px; background: #34c759; border-radius: 3px;"></div> Inside Geofence
+              <div style="width: 12px; height: 12px; background: #0071e3; border-radius: 3px;"></div> Present
             </div>
             <div style="display: flex; align-items: center; gap: 6px;">
-              <div style="width: 12px; height: 12px; background: #ff9500; border-radius: 3px;"></div> Outside Geofence
+              <div style="width: 12px; height: 12px; background: #ff3b30; border-radius: 3px;"></div> Absent
             </div>
             <div style="display: flex; align-items: center; gap: 6px;">
-              <div style="width: 12px; height: 12px; background: #f2f2f7; border-radius: 3px; border: 1px solid #e5e5ea;"></div> No Record
+              <div style="width: 12px; height: 12px; background: #f2f2f7; border-radius: 3px; border: 1px solid #e5e5ea;"></div> Leave
             </div>
           </div>
         </div>
         
-      </div>
+        </div> <!-- End Right Column -->
+      </div> <!-- End Flex Container -->
+      </div> <!-- End Profile View -->
 
   
 
