@@ -1654,7 +1654,7 @@ window.downloadPayslip = function(month, baseSalary, absentDays, leaveDeduction,
     filename:     `Payslip_${month.replace(/ /g, '_')}.pdf`,
     image:        { type: 'jpeg', quality: 0.98 },
     html2canvas:  { scale: 2 },
-    jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+    jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
   };
   
   html2pdf().set(opt).from(element).save().then(() => {

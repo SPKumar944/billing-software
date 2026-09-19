@@ -128,7 +128,7 @@
           <p style="color:#555; margin-top:4px;">Manage raw material costs and analyze real-time profit margins across all items.</p>
         </header>
 
-        <div style="display:grid; grid-template-columns: 300px 1fr; gap: 24px; align-items: start;">
+        <div style="display:grid; grid-template-columns: 300px 1fr; gap: 16px; align-items: start;">
           <!-- Left Col: Raw Materials -->
           <div style="background:#fff; border-radius:12px; box-shadow:0 1px 3px rgba(0,0,0,0.05); padding:20px;">
             <h3 style="margin-top:0; font-size:16px;">Raw Material Costs ($/Unit)</h3>
@@ -329,19 +329,19 @@
           <h2>Employee Directory</h2>
           <button class="btn btn-primary" onclick="loadEmployeeDirectory()">↻ Refresh List</button>
         </div>
-        <div id="employee-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; padding: 24px 0;">
+        <div id="employee-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; padding: 24px 0;">
           <p style="color:#888;">Loading employees...</p>
         </div>
       </div>
 
 <!-- VIEW 8: ATTENDANCE -->
       <div id="attendance-view" class="view" style="display:none; height:100%; overflow-y:auto; padding-bottom: 40px; padding: 24px; text-align: center;">
-        <h1 style="font-size: 32px; font-weight: 700; color: #1d1d1f; margin-bottom: 8px;">Mark Attendance</h1>
+        <h1 style="font-size: 32px; font-weight: 700; color: #1d1d1f; margin-bottom: 4px;">Mark Attendance</h1>
         <p style="color: #86868b; margin-bottom: 32px;">Please select your name and click the button to check in.</p>
         
         <div style="background: #fff; max-width: 400px; margin: 0 auto; border-radius: 18px; padding: 32px; box-shadow: 0 4px 24px rgba(0,0,0,0.06); border: 1px solid #f5f5f7;">
           <div class="form-group" style="text-align: left; margin-bottom: 24px;">
-            <label style="font-size: 14px; font-weight: 600; color: #1d1d1f; margin-bottom: 8px; display: block;">Select Employee</label>
+            <label style="font-size: 14px; font-weight: 600; color: #1d1d1f; margin-bottom: 4px; display: block;">Select Employee</label>
             <select id="attendance-emp-select" class="apple-input" style="width: 100%; padding: 12px; font-size: 16px; border-radius: 10px;">
               <option value="">-- Choose your name --</option>
             </select>
@@ -458,7 +458,7 @@
                 <!-- Grid will be populated by JS -->
               </div>
               
-              <div style="display: flex; justify-content: center; gap: 24px; margin-top: 24px; font-size: 12px; color: #555;">
+              <div style="display: flex; justify-content: center; gap: 16px; margin-top: 24px; font-size: 12px; color: #555;">
                 <div style="display: flex; align-items: center; gap: 6px;">
                   <div style="width: 12px; height: 12px; background: #0071e3; border-radius: 3px;"></div> Present
                 </div>
@@ -472,7 +472,7 @@
             </div>
             
             <!-- Right: Leave Stats -->
-            <div style="flex: 1; display: flex; flex-direction: column; gap: 24px;">
+            <div style="flex: 1; display: flex; flex-direction: column; gap: 16px;">
               
               <!-- Overall Percentage -->
               <div style="background: #f5f5f7; padding: 24px 16px; border-radius: 12px; text-align: center;">
@@ -511,7 +511,7 @@
 
 
 <!-- ID Card & Pay History Row -->
-          <div style="display: flex; gap: 24px; align-items: flex-start; width: 100%;">
+          <div style="display: flex; gap: 16px; align-items: flex-start; width: 100%;">
           <!-- ID Card Permanent Display -->
           <div style="background: #fff; border-radius: 12px; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); display: flex; flex-direction: column; align-items: center; width: max-content;">
             <h2 style="margin-top:0; align-self:flex-start;">ID Card</h2>
@@ -609,7 +609,7 @@
     <div class="modal-body">
       <form id="add-item-form">
         
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
           
           <!-- Column 1: Basic Info -->
           <div class="form-section">
@@ -750,7 +750,7 @@
           <button type="button" class="add-row-btn" id="add-addon-btn">+ Add Add-On</button>
         </div>
 
-        <div class="form-group checkbox-group" style="margin-bottom: 40px;">
+        <div class="form-group checkbox-group" style="margin-bottom: 20px;">
           <input type="checkbox" id="Is_Active" checked>
           <label for="Is_Active">Is Active (Available to order)</label>
         </div>
@@ -840,16 +840,16 @@
   </div>
 
   <!-- Hidden Payslip Template for PDF Generation -->
-  <div id="payslip-template" style="display:none; width: 700px; background: #ffffff; padding: 40px 50px; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif; color: #1d1d1f; box-sizing: border-box; font-size: 13px; line-height: 1.5; margin: 0 auto;">
+  <div id="payslip-template" style="display:none; width: 700px; background: #ffffff; padding: 20px 40px; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif; color: #1d1d1f; box-sizing: border-box; font-size: 13px; line-height: 1.5; margin: 0 auto;">
     
     <!-- Header -->
-    <div style="text-align: center; margin-bottom: 40px;">
+    <div style="text-align: center; margin-bottom: 20px;">
       <h2 style="margin: 0 0 8px 0; font-size: 24px; font-weight: 600; letter-spacing: -0.5px; color: #1d1d1f;">RESTAURANT SOLUTIONS</h2>
       <div style="font-size: 12px; color: #86868b;">Flat No. 5, Food Complex, Bangalore, Karnataka</div>
       <div style="font-size: 12px; color: #86868b;">hr@restaurant.com</div>
     </div>
     
-    <div style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px solid #d2d2d7; padding-bottom: 20px; margin-bottom: 30px;">
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px solid #d2d2d7; padding-bottom: 20px; margin-bottom: 15px;">
       <div>
         <h3 style="margin: 0; font-size: 20px; font-weight: 600; color: #1d1d1f;">Payslip</h3>
         <div style="font-size: 14px; color: #86868b;">for <span id="slip-month">August 2026</span></div>
@@ -861,27 +861,27 @@
     </div>
     
     <!-- Employee Details Grid -->
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 40px; font-size: 12px;">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; font-size: 12px;">
       
       <!-- Left Column -->
       <div>
-        <div style="display: flex; margin-bottom: 8px;">
+        <div style="display: flex; margin-bottom: 4px;">
           <div style="width: 140px; color: #86868b;">Employee Number</div>
           <div style="font-weight: 500; color: #1d1d1f;" id="slip-emp-id">0004</div>
         </div>
-        <div style="display: flex; margin-bottom: 8px;">
+        <div style="display: flex; margin-bottom: 4px;">
           <div style="width: 140px; color: #86868b;">Function</div>
           <div style="font-weight: 500; color: #1d1d1f;" id="slip-emp-dept">Kitchen</div>
         </div>
-        <div style="display: flex; margin-bottom: 8px;">
+        <div style="display: flex; margin-bottom: 4px;">
           <div style="width: 140px; color: #86868b;">Designation</div>
           <div style="font-weight: 500; color: #1d1d1f;" id="slip-emp-role">Chef</div>
         </div>
-        <div style="display: flex; margin-bottom: 8px;">
+        <div style="display: flex; margin-bottom: 4px;">
           <div style="width: 140px; color: #86868b;">Location</div>
           <div style="font-weight: 500; color: #1d1d1f;">Bangalore</div>
         </div>
-        <div style="display: flex; margin-bottom: 8px;">
+        <div style="display: flex; margin-bottom: 4px;">
           <div style="width: 140px; color: #86868b;">Bank Details</div>
           <div style="font-weight: 500; color: #1d1d1f;"><span id="slip-emp-acc"></span>, <span id="slip-emp-bank"></span>, <span id="slip-emp-ifsc"></span></div>
         </div>
@@ -893,23 +893,23 @@
       
       <!-- Right Column -->
       <div>
-        <div style="display: flex; margin-bottom: 8px;">
+        <div style="display: flex; margin-bottom: 4px;">
           <div style="width: 140px; color: #86868b;">Tax Regime</div>
           <div style="font-weight: 500; color: #1d1d1f;">Regular Tax Regime</div>
         </div>
-        <div style="display: flex; margin-bottom: 8px;">
+        <div style="display: flex; margin-bottom: 4px;">
           <div style="width: 140px; color: #86868b;">PAN</div>
           <div style="font-weight: 500; color: #1d1d1f;">-</div>
         </div>
-        <div style="display: flex; margin-bottom: 8px;">
+        <div style="display: flex; margin-bottom: 4px;">
           <div style="width: 140px; color: #86868b;">UAN</div>
           <div style="font-weight: 500; color: #1d1d1f;" id="slip-emp-uan">-</div>
         </div>
-        <div style="display: flex; margin-bottom: 8px;">
+        <div style="display: flex; margin-bottom: 4px;">
           <div style="width: 140px; color: #86868b;">PF Account</div>
           <div style="font-weight: 500; color: #1d1d1f;">-</div>
         </div>
-        <div style="display: flex; margin-bottom: 8px;">
+        <div style="display: flex; margin-bottom: 4px;">
           <div style="width: 140px; color: #86868b;">ESI Number</div>
           <div style="font-weight: 500; color: #1d1d1f;">-</div>
         </div>
@@ -922,7 +922,7 @@
     </div>
     
     <!-- Apple Style Table (No vertical borders, faint horizontal lines) -->
-    <div style="border-radius: 12px; border: 1px solid #d2d2d7; overflow: hidden; margin-bottom: 30px;">
+    <div style="border-radius: 12px; border: 1px solid #d2d2d7; overflow: hidden; margin-bottom: 15px;">
       <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
         <thead>
           <tr style="background: #f5f5f7; border-bottom: 1px solid #d2d2d7;">
@@ -934,28 +934,28 @@
         </thead>
         <tbody>
           <tr style="border-bottom: 1px solid #e5e5ea;">
-            <td style="padding: 14px 20px;">Basic Salary</td>
-            <td style="padding: 14px 20px; text-align: right; border-right: 1px solid #e5e5ea;" id="slip-base">23,532.00</td>
-            <td style="padding: 14px 20px;">Professional Tax</td>
-            <td style="padding: 14px 20px; text-align: right;">200.00</td>
+            <td style="padding: 10px 20px;">Basic Salary</td>
+            <td style="padding: 10px 20px; text-align: right; border-right: 1px solid #e5e5ea;" id="slip-base">23,532.00</td>
+            <td style="padding: 10px 20px;">Professional Tax</td>
+            <td style="padding: 10px 20px; text-align: right;">200.00</td>
           </tr>
           <tr style="border-bottom: 1px solid #e5e5ea;">
-            <td style="padding: 14px 20px;">House Rent Allowance</td>
-            <td style="padding: 14px 20px; text-align: right; border-right: 1px solid #e5e5ea;">-</td>
-            <td style="padding: 14px 20px;" id="slip-leave-desc">Leave LOP (0 Days)</td>
-            <td style="padding: 14px 20px; text-align: right; color: #d9363e;" id="slip-leave-amt">0.00</td>
+            <td style="padding: 10px 20px;">House Rent Allowance</td>
+            <td style="padding: 10px 20px; text-align: right; border-right: 1px solid #e5e5ea;">-</td>
+            <td style="padding: 10px 20px;" id="slip-leave-desc">Leave LOP (0 Days)</td>
+            <td style="padding: 10px 20px; text-align: right; color: #d9363e;" id="slip-leave-amt">0.00</td>
           </tr>
           <tr style="border-bottom: 1px solid #e5e5ea;">
-            <td style="padding: 14px 20px;">Conveyance</td>
-            <td style="padding: 14px 20px; text-align: right; border-right: 1px solid #e5e5ea;">-</td>
-            <td style="padding: 14px 20px;"></td>
-            <td style="padding: 14px 20px; text-align: right;"></td>
+            <td style="padding: 10px 20px;">Conveyance</td>
+            <td style="padding: 10px 20px; text-align: right; border-right: 1px solid #e5e5ea;">-</td>
+            <td style="padding: 10px 20px;"></td>
+            <td style="padding: 10px 20px; text-align: right;"></td>
           </tr>
           <tr>
-            <td style="padding: 14px 20px;">Medical Allowance</td>
-            <td style="padding: 14px 20px; text-align: right; border-right: 1px solid #e5e5ea;">-</td>
-            <td style="padding: 14px 20px;"></td>
-            <td style="padding: 14px 20px; text-align: right;"></td>
+            <td style="padding: 10px 20px;">Medical Allowance</td>
+            <td style="padding: 10px 20px; text-align: right; border-right: 1px solid #e5e5ea;">-</td>
+            <td style="padding: 10px 20px;"></td>
+            <td style="padding: 10px 20px; text-align: right;"></td>
           </tr>
         </tbody>
         <tfoot style="border-top: 1px solid #d2d2d7; background: #fbfbfd;">
@@ -974,7 +974,7 @@
       </table>
     </div>
     
-    <div style="font-size: 12px; margin-bottom: 60px; color: #86868b;">
+    <div style="font-size: 12px; margin-bottom: 30px; color: #86868b;">
       Amount (in words): <br>
       <strong style="color: #1d1d1f; font-size: 13px;" id="slip-words">INR Thirty Three Thousand Six Hundred Seventy Only</strong>
     </div>
@@ -999,9 +999,9 @@
   </div>
     
     <!-- Employee Info Grid -->
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 40px; font-size: 14px; line-height: 1.6;">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; font-size: 14px; line-height: 1.6;">
       <div>
-        <div style="color: #86868b; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">Employee Details</div>
+        <div style="color: #86868b; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">Employee Details</div>
         <div><span style="color:#86868b; display:inline-block; width:110px;">Name:</span> <strong id="slip-emp-name" style="font-weight:600;">Employee Name</strong></div>
         <div><span style="color:#86868b; display:inline-block; width:110px;">Employee ID:</span> <strong id="slip-emp-id" style="font-weight:600;">EMP-000</strong></div>
         <div><span style="color:#86868b; display:inline-block; width:110px;">Role:</span> <strong id="slip-emp-role" style="font-weight:600;">-</strong></div>
@@ -1010,7 +1010,7 @@
         <div><span style="color:#86868b; display:inline-block; width:110px;">UAN Number:</span> <strong id="slip-emp-uan" style="font-weight:600;">-</strong></div>
       </div>
       <div>
-        <div style="color: #86868b; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">Banking Details</div>
+        <div style="color: #86868b; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">Banking Details</div>
         <div><span style="color:#86868b; display:inline-block; width:110px;">Bank Name:</span> <strong id="slip-emp-bank" style="font-weight:600;">-</strong></div>
         <div><span style="color:#86868b; display:inline-block; width:110px;">Account No:</span> <strong id="slip-emp-acc" style="font-weight:600;">-</strong></div>
         <div><span style="color:#86868b; display:inline-block; width:110px;">IFSC Code:</span> <strong id="slip-emp-ifsc" style="font-weight:600;">-</strong></div>
