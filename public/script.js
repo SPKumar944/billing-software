@@ -1289,6 +1289,21 @@ window.openProfile = function(pageId) {
   
   const qrData = encodeURIComponent(`ID:${empId}|Name:${name}|Blood:${blood}|Role:${role}`);
   document.getElementById('profile-card-qr').src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${qrData}`;
+  
+  // Set dropdowns to current month and load calendar
+  const d = new Date();
+  document.getElementById('attendance-month').value = d.getMonth() + 1;
+  document.getElementById('attendance-year').value = d.getFullYear();
+  
+  // Actually render it
+  if (typeof reloadAttendanceCalendar === 'function') {
+    reloadAttendanceCalendar();
+  }
+  
+  // Load pay history
+  if (typeof generatePayHistory === 'function') {
+    generatePayHistory(pageId); // Using pageId because it's the Notion DB ID
+  }
 };
 
 window.backToDirectory = function() {
