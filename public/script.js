@@ -1598,6 +1598,14 @@ window.downloadPayslip = function(month, amount) {
   document.getElementById('slip-emp-id').textContent = document.getElementById('edit_empid').value || "EMP-000";
   document.getElementById('slip-emp-dept').textContent = document.getElementById('edit_department').value || "Staff";
   
+  // New Apple-style fields
+  document.getElementById('slip-emp-role').textContent = document.getElementById('edit_role').value || "-";
+  document.getElementById('slip-emp-doj').textContent = document.getElementById('edit_doj').value || "-";
+  document.getElementById('slip-emp-uan').textContent = document.getElementById('edit_uan').value || "-";
+  document.getElementById('slip-emp-bank').textContent = document.getElementById('edit_bank_name').value || "-";
+  document.getElementById('slip-emp-acc').textContent = document.getElementById('edit_bank_acc').value || "-";
+  document.getElementById('slip-emp-ifsc').textContent = document.getElementById('edit_bank_ifsc').value || "-";
+  
   document.getElementById('slip-month').textContent = month;
   
   const formattedAmount = parseInt(amount).toLocaleString('en-IN');
