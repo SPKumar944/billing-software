@@ -81,6 +81,11 @@ async function fetchMenuData() {
       } else if (p.Image_URL?.url) {
         imageUrl = p.Image_URL.url;
       }
+      
+      // FIX for Vercel: rewrite localhost image URLs to relative paths so they load on any domain
+      if (imageUrl && imageUrl.includes('localhost:3000')) {
+        imageUrl = imageUrl.replace('http://localhost:3000', '');
+      }
 
       return { id: page.id, name, price, categoryName, inStock, stock, lowStock, dailyQuota, bomRaw, imageUrl, raw: p };
     });
