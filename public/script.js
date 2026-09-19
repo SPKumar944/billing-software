@@ -1661,12 +1661,6 @@ window.downloadPayslip = function(month, baseSalary, absentDays, leaveDeduction,
     element.style.display = 'none';
   });
 };
-  
-  html2pdf().set(opt).from(element).save().then(() => {
-    // Hide it again
-    element.style.display = 'none';
-  });
-};
 
 // --- DYNAMIC PAY HISTORY ---
 window.generatePayHistory = async function(empId) {
