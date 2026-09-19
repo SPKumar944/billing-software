@@ -1655,18 +1655,18 @@ window.generatePayHistory = async function(empId) {
     // Fetch all attendance records
     const res = await fetch(`/api/attendance/${empId}`);
     if (!res.ok) throw new Error("Failed to fetch attendance");
-    const json = await res.json();
-    const records = json.data;
+    const records = await res.json();
     
     // Group records by YYYY-MM
     const recordsByMonth = {};
     records.forEach(r => {
-      const date = r.properties.Timestamp.date.start.substring(0, 10); // YYYY-MM-DD
+      if (!r.timestamp) return; // safety check
+      const date = r.timestamp.substring(0, 10); // YYYY-MM-DD
       const ym = date.substring(0, 7); // YYYY-MM
       if (!recordsByMonth[ym]) recordsByMonth[ym] = [];
       recordsByMonth[ym].push({
         date: date,
-        status: r.properties.Status.select.name
+        status: r.status
       });
     });
     
