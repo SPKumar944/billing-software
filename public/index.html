@@ -358,10 +358,10 @@
       <!-- VIEW 7: EMPLOYEE PROFILE -->
       <div id="employee-profile-view" class="view" style="display:none; height:100%; overflow-y:auto; padding-bottom: 40px; padding: 24px;">
         <button class="btn btn-secondary" style="margin-bottom: 16px;" onclick="backToDirectory()">← Back to Directory</button>
-        <div style="display: flex; gap: 32px; align-items: flex-start; max-width: 1100px; margin: 0 auto;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: flex-start; width: 100%;">
           
           <!-- Edit Form -->
-          <div style="background: #fff; border-radius: 12px; padding: 32px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); flex: 1; min-width: 400px;">
+          <div style="background: #fff; border-radius: 12px; padding: 32px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
             <h2 style="margin-top:0;">Edit Employee</h2>
             <form id="edit-employee-form">
               <input type="hidden" id="edit_emp_id">
@@ -484,7 +484,7 @@
             </div>
           </div>
           
-          <div id="attendance-calendar-grid" style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; text-align: center;">
+          <div id="attendance-calendar-grid" style="display: flex; flex-wrap: wrap; gap: 6px;">
             <!-- Grid will be populated by JS -->
           </div>
           

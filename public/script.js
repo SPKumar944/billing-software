@@ -1480,83 +1480,48 @@ function renderAttendanceCalendarGrid(year, month, recordMap) {
   const grid = document.getElementById('attendance-calendar-grid');
   grid.innerHTML = '';
   
-  const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-  daysOfWeek.forEach(day => {
-    const el = document.createElement('div');
-    el.style.fontWeight = '600';
-    el.style.fontSize = '12px';
-    el.style.color = '#888';
-    el.style.paddingBottom = '8px';
-    el.textContent = day;
-    grid.appendChild(el);
-  });
-  
-  // Get first day of month (0 = Sun, 1 = Mon...)
-  const firstDay = new Date(year, month - 1, 1).getDay();
-  // Get days in month
   const daysInMonth = new Date(year, month, 0).getDate();
   
-  // Pad beginning
-  for (let i = 0; i < firstDay; i++) {
-    const blank = document.createElement('div');
-    grid.appendChild(blank);
-  }
-  
-  // Draw days
+  // Draw days as simple clean heatmap squares without text
   for (let i = 1; i <= daysInMonth; i++) {
     const dateStr = `${year}-${String(month).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
     const record = recordMap[dateStr];
     
     const dayBox = document.createElement('div');
-    dayBox.style.aspectRatio = '1';
-    dayBox.style.borderRadius = '8px';
-    dayBox.style.display = 'flex';
-    dayBox.style.alignItems = 'center';
-    dayBox.style.justifyContent = 'center';
-    dayBox.style.fontWeight = '500';
-    dayBox.style.fontSize = '14px';
-    dayBox.style.cursor = 'default';
+    dayBox.style.width = '24px';
+    dayBox.style.height = '24px';
+    dayBox.style.borderRadius = '4px'; // small radius like heatmap
+    dayBox.style.cursor = 'pointer';
+    dayBox.style.transition = 'transform 0.1s';
     
-    dayBox.textContent = i;
+    dayBox.onmouseover = () => dayBox.style.transform = 'scale(1.2)';
+    dayBox.onmouseout = () => dayBox.style.transform = 'scale(1)';
     
-    // Determine day of week for default "Leave" logic
     const currentDayOfWeek = new Date(year, month - 1, i).getDay();
     
+    // Tooltip includes the Date
+    const displayDate = `${i}/${month}/${year}`;
+    
     if (record) {
-      // Explicit record overrides defaults
       if (record.status === 'Absent') {
         dayBox.style.background = '#ff3b30'; // Red
-        dayBox.style.color = '#fff';
-        dayBox.style.border = '2px solid #d70015';
-        dayBox.title = 'Absent';
+        dayBox.title = `${displayDate}: Absent`;
       } else {
         dayBox.style.background = '#0071e3'; // Blue
-        dayBox.style.color = '#fff';
-        dayBox.style.border = '2px solid #0056b3';
-        dayBox.title = `Present (${record.status} ${record.distance}m)`;
+        dayBox.title = `${displayDate}: Present (${record.status} ${record.distance}m)`;
       }
     } else {
-      // Mock logic: assume all present from Jan 2026, except Sundays (Leave)
-      // We will also randomly make ~2 days a month 'Absent' for visual testing if it's not a Sunday.
-      if (currentDayOfWeek === 0) {
-        // Sunday = Leave
+      if (currentDayOfWeek === 0) { // Sunday
         dayBox.style.background = '#f2f2f7'; // Grey
-        dayBox.style.color = '#8e8e93';
-        dayBox.style.border = '1px solid #e5e5ea';
-        dayBox.title = 'Leave';
+        dayBox.title = `${displayDate}: Leave (Sunday)`;
       } else {
-        // Deterministic pseudo-random absent day based on day number so it doesn't flicker
         const isAbsent = (i === 12 || i === 24); 
         if (isAbsent) {
           dayBox.style.background = '#ff3b30'; // Red
-          dayBox.style.color = '#fff';
-          dayBox.style.border = '2px solid #d70015';
-          dayBox.title = 'Absent';
+          dayBox.title = `${displayDate}: Absent`;
         } else {
           dayBox.style.background = '#0071e3'; // Blue
-          dayBox.style.color = '#fff';
-          dayBox.style.border = '2px solid #0056b3';
-          dayBox.title = 'Present';
+          dayBox.title = `${displayDate}: Present`;
         }
       }
     }
