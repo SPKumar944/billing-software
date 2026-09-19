@@ -1708,6 +1708,12 @@ window.generatePayHistory = async function(empId) {
             }
           });
         }
+        
+        // MOCK: User requested to assume 2 or 3 days of leave from Jan to Aug 2026
+        if (y === 2026 && m >= 1 && m <= 8) {
+          const mockLeave = (m % 2 === 0) ? 2 : 3;
+          absentCount += mockLeave;
+        }
         // Since we are mocking some absents on the calendar (days 12 and 24 if no record), we should align if needed, 
         // but let's stick strictly to what the DB says to be precise. 
         // Oh wait, my script manually added mock absents to the Calendar view if the DB had nothing.
